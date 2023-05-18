@@ -9,8 +9,22 @@ public class Gun : MonoBehaviour
 
     float timeSinceLastShot;
 
+    public AudioSource[] sounds;
+    public AudioSource shootingSound;
+    public AudioSource reloadSound;
+    public AudioSource dryGunSound;
+
+    public ParticleSystem muzzleFlash;
+
+    public GameObject bulletHole;
+
     private void Start()
     {
+        sounds = GetComponents<AudioSource>();
+        shootingSound = sounds[0];
+        reloadSound = sounds[1];
+        dryGunSound = sounds[2];
+
         PlayerShoot.shootInput += Shoot;
         PlayerShoot.reloadInput += StartReload;
     }
@@ -19,6 +33,7 @@ public class Gun : MonoBehaviour
     {
         if (!gunData.reloading)
         {
+            reloadSound.Play();
             StartCoroutine(Reload());
         }
     }
@@ -44,12 +59,18 @@ public class Gun : MonoBehaviour
                     Debug.Log(hitInfo.transform.name);
                     IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                     damageable?.Damage(gunData.damage);
+
+                    GameObject bH = Instantiate(bulletHole, hitInfo.point + new Vector3(0f, 0f, -.02f), Quaternion.LookRotation(-hitInfo.normal));
                 }
 
                 gunData.currentAmmo--;
                 timeSinceLastShot = 0;
                 OnGunShot();
             }
+        }
+        else
+        {
+            dryGunSound.Play();
         }
     }
 
@@ -62,7 +83,8 @@ public class Gun : MonoBehaviour
 
     private void OnGunShot()
     {
-
+        shootingSound.Play();
+        muzzleFlash.Play();
     }
 
 }

@@ -6,7 +6,7 @@ public class DespawnTimer : MonoBehaviour
 {
 
 
-    public float TimeLeft = 5;
+    public float TimeLeft = 2;
 
 
     void Update()

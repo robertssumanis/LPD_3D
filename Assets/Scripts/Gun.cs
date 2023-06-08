@@ -15,6 +15,7 @@ public class Gun : MonoBehaviour
     public AudioSource dryGunSound;
 
     public ParticleSystem muzzleFlash;
+    public ParticleSystem Blood;
 
     public GameObject bulletHole;
 
@@ -60,7 +61,12 @@ public class Gun : MonoBehaviour
                     IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                     damageable?.Damage(gunData.damage);
 
-                    GameObject bH = Instantiate(bulletHole, hitInfo.point + new Vector3(0f, 0f, -.02f), Quaternion.LookRotation(-hitInfo.normal));
+                    Instantiate(Blood, hitInfo.point + new Vector3(0f, 0f, -.02f), Quaternion.LookRotation(-hitInfo.normal));
+
+                    if (hitInfo.transform.name != "Zombie")
+                    {
+                        GameObject bH = Instantiate(bulletHole, hitInfo.point + new Vector3(0f, 0f, -.02f), Quaternion.LookRotation(-hitInfo.normal));
+                    } 
                 }
 
                 gunData.currentAmmo--;

@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class DespawnTimer : MonoBehaviour
 {
-
-
-    public float TimeLeft = 2;
-
+    public float timeLeft = 2;
 
     void Update()
     {
-        TimeLeft -= Time.deltaTime;
-        if (TimeLeft < 0)
+        timeLeft -= Time.deltaTime;
+        if (timeLeft < 0)
         {
             Destroy(gameObject);
         }
